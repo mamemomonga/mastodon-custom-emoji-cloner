@@ -9,6 +9,12 @@ import (
 	"path/filepath"
 )
 
+type NewCustomEmoji struct {
+	FromDomain string
+	Shortcode  string
+	ID         int
+}
+
 // ファイルが存在する
 func exists(path string) (bool, error) {
 	_, err := os.Stat(path)
@@ -33,10 +39,8 @@ func (this *Emoji) copy_emoji(ce CustomEmoji, newid int, image_type string) erro
 	src := this.ce2path(ce, ce.id, image_type)
 	dst := this.ce2path(ce, newid, image_type)
 
-	if this.config.Verbose {
-		log.Printf("  Src:  %s\n", src)
-		log.Printf("  Dest: %s\n", dst)
-	}
+	log.Printf("trace:  Src  %s\n", src)
+	log.Printf("trace:  Dest %s\n", dst)
 
 	if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
 		return err
@@ -60,8 +64,9 @@ func (this *Emoji) copy_emoji(ce CustomEmoji, newid int, image_type string) erro
 	return nil
 }
 
-func (this *Emoji) Copy() (err error) {
+func (this *Emoji) Copy() (new_emojis []NewCustomEmoji, err error) {
 	err = nil
+	new_emojis = []NewCustomEmoji{}
 
 	// コピー対象の収集
 	targets := []CustomEmoji{}
@@ -78,13 +83,11 @@ func (this *Emoji) Copy() (err error) {
 	}
 	// DBへ挿入
 	for _, t := range targets {
-		if this.config.Verbose {
-			log.Print("[COPY]")
-			log.Printf("  ID:        %d", t.id)
-			log.Printf("  Shortcode: %s", t.shortcode)
-			log.Printf("  Domain:    %s", t.domain.String)
-			log.Printf("  Filename:  %s", t.image_file_name)
-		}
+		log.Printf("trace: [COPY]")
+		log.Printf("trace:   ID:        %d", t.id)
+		log.Printf("trace:   Shortcode: %s", t.shortcode)
+		log.Printf("trace:   Domain:    %s", t.domain.String)
+		log.Printf("trace:   Filename:  %s", t.image_file_name)
 		var newid int
 		err = this.db.QueryRow(`
 INSERT INTO custom_emojis(
@@ -108,11 +111,16 @@ INSERT INTO custom_emojis(
 		if err != nil {
 			return
 		}
-		if this.config.Verbose {
-			log.Printf("  NewID:  %d", newid)
-		}
+		log.Printf("trace:  NewID:  %d", newid)
+
 		this.copy_emoji(t, newid, "original")
 		this.copy_emoji(t, newid, "static")
+
+		new_emojis=append(new_emojis, NewCustomEmoji{
+			FromDomain: t.domain.String,
+			Shortcode:  t.shortcode,
+			ID:         newid,
+		})
 	}
 	return
 }

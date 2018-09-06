@@ -43,9 +43,7 @@ func NewEmoji(config config.Config) (this *Emoji, err error) {
 	this.config = config
 	dcnf := config.Database
 
-	if this.config.Verbose {
-		log.Printf("Connecting DB: %s", dcnf.DBname)
-	}
+	log.Printf("trace: Connecting DB: %s", dcnf.DBname)
 	this.db, err = sql.Open(
 		"postgres", fmt.Sprintf(
 			"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
@@ -55,8 +53,6 @@ func NewEmoji(config config.Config) (this *Emoji, err error) {
 }
 
 func (this *Emoji) Finalize() {
-	if this.config.Verbose {
-		log.Print("Disconnect DB")
-	}
+	log.Print("trace: Disconnect DB")
 	defer this.db.Close()
 }
