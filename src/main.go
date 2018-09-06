@@ -111,7 +111,7 @@ func update(cnf *config.Config, stor *store.Store) (err error) {
 	if len(new_emojis) > 0 {
 
 		// トゥート文言作成
-		message := "隊長！新しい絵文字が到着しました！\r\n"
+		message := "新しい絵文字が到着しました！\r\n"
 		for _,em := range new_emojis {
 			message = message + fmt.Sprintf(":%s: ",em.Shortcode)
 		}
