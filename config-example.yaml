@@ -1,14 +1,23 @@
 
+# BOTのログイン情報
+mastodon:
+   domain: mstdn.jp
+   email: example@example.org
+   password: password
+
+# BOTのクライアント
+client_name: custom-emoji-bot
+
+# BOTのアプリ情報保存ファイル
+data_file: var/data.yaml
+
 # カスタム絵文字へのパス
 emoji_images_path: "/home/mastodon/live/public/system/custom_emojis/images"
-
-# くどい表示
-verbose: true
 
 # 待機時間(分)
 duration: 1
 
-# DB情報(要TCP接続)
+DB情報(要TCP接続)
 database:
    host: 127.0.0.1
    port: 5432

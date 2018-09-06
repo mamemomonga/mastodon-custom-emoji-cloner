@@ -1,1 +1,4 @@
-/build
+/dist
+/etc
+/var
+*.swp

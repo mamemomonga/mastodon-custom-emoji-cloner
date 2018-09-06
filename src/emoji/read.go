@@ -56,15 +56,11 @@ func (this *Emoji) Read() (err error) {
 		}
 	}
 
-	if this.config.Verbose {
-		log.Printf("Found %d custom_emojis", len(emjs))
-	}
+	log.Printf("trace: Found %d custom_emojis", len(emjs))
 
-	if this.config.Verbose {
-		log.Printf("Found %d custom_emojis", len(emjs))
-		log.Printf("Local Emojis:  %d", len(this.Local))
-		log.Printf("Remote Emojis: %d", len(this.Remote))
-	}
+	log.Printf("trace: Found %d custom_emojis", len(emjs))
+	log.Printf("trace: Local Emojis:  %d", len(this.Local))
+	log.Printf("trace: Remote Emojis: %d", len(this.Remote))
 
 	return
 }
