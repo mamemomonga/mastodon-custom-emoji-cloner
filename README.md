@@ -6,16 +6,27 @@
 * ピッカーは自動更新されません。自動取得後はウェブページをリロードする必要があります。
 * S3ストレージには対応していません。
 
+# ビルド方法
+
+* Dockerが必要です。
+* macOSにてテストしています。
+
+	$ bin/build.sh
+
+var/dist/linux-arm/bin ができますので、そのフォルダを対象のマシンの任意フォルダにコピーしてください。
+
 # 実行方法
 
-* config-example.yaml を参考に config.yaml を作成してください。
-* PostgreSQLにTCPで接続できるようにする必要があります。
+bin フォルダの一階層した下で
 
-OS、ARCHにあったバイナリを[ここから](https://github.com/mamemomonga/mastodon-custom-emoji-cloner/releases/)ダウンロードし、以下の実行します。
+	bin/init.sh
 
-	$ ./emoji-cloner-linux-arm config.yaml
+を実行すると var etc フォルダが作成されるので、 config-example.yaml を参考に etc/config.yaml を作成してください。
 
-## バックグラウンドでの実行例
+	$ bin/start-stop.sh
 
-	$ emoji-cloner-linux-arm config.yaml > emoji-cloner.log 2>&1 &
+を実行するとバックグラウンドで実行します。
+
+var/emoji-cloner.log にログが保存されます。
+
 
