@@ -11,6 +11,8 @@
 * Dockerが必要です。
 * macOSにてテストしています。
 
+コマンド
+
 	$ bin/build.sh
 
 var/dist/linux-arm/bin ができますので、そのフォルダを対象のマシンの任意フォルダにコピーしてください。
